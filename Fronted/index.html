@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Employee Management System</title>
+
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+
+    <!-- LOGIN SECTION -->
+    <section id="loginSection" class="login-section">
+
+        <div class="login-card">
+
+            <div class="login-logo">
+                <span>EMS</span>
+            </div>
+
+            <h1>Welcome Back</h1>
+
+            <p class="login-subtitle">
+                Employee Management System
+            </p>
+
+            <div class="login-switch">
+
+                <button id="userTab" class="switch-btn active"
+                    onclick="switchLogin('user')">
+                    User Login
+                </button>
+
+                <button id="adminTab" class="switch-btn"
+                    onclick="switchLogin('admin')">
+                    Admin Login
+                </button>
+
+            </div>
+
+            <form id="loginForm">
+
+                <div class="form-group">
+
+                    <label>Username</label>
+
+                    <input
+                        type="text"
+                        id="username"
+                        placeholder="Enter username"
+                        required
+                    >
+
+                </div>
+
+                <div class="form-group">
+
+                    <label>Password</label>
+
+                    <input
+                        type="password"
+                        id="password"
+                        placeholder="Enter password"
+                        required
+                    >
+
+                </div>
+
+                <p id="loginError" class="error-message"></p>
+
+                <button type="submit" class="primary-btn">
+                    Sign In
+                </button>
+
+            </form>
+
+            <p class="login-footer">
+                Secure Employee Management Portal
+            </p>
+
+        </div>
+
+    </section>
+
+
+    <!-- DASHBOARD SECTION -->
+    <section id="dashboardSection" class="dashboard-section hidden">
+
+        <!-- SIDEBAR -->
+        <aside class="sidebar">
+
+            <div class="sidebar-logo">
+                <span>EMS</span>
+                <h2>Employee<br>Management</h2>
+            </div>
+
+            <div class="sidebar-menu">
+
+                <button class="menu-btn active" onclick="showPage('dashboard')">
+                    Dashboard
+                </button>
+
+                <button class="menu-btn" onclick="showPage('employees')">
+                    Employees
+                </button>
+
+                <button
+                    id="addEmployeeMenu"
+                    class="menu-btn admin-only"
+                    onclick="showPage('addEmployee')">
+                    Add Employee
+                </button>
+
+            </div>
+
+            <button class="logout-btn" onclick="logout()">
+                Logout
+            </button>
+
+        </aside>
+
+
+        <!-- MAIN CONTENT -->
+        <main class="main-content">
+
+            <!-- TOPBAR -->
+            <header class="topbar">
+
+                <div>
+                    <h2 id="pageTitle">Dashboard</h2>
+                    <p>Welcome to Employee Management System</p>
+                </div>
+
+                <div class="profile-info">
+
+                    <div class="profile-avatar" id="profileAvatar">
+                        U
+                    </div>
+
+                    <div>
+                        <h4 id="profileName">User</h4>
+                        <span id="profileRole">User</span>
+                    </div>
+
+                </div>
+
+            </header>
+
+
+            <!-- DASHBOARD PAGE -->
+            <div id="dashboardPage" class="page">
+
+                <div class="welcome-card">
+
+                    <div>
+                        <h1>Welcome Back!</h1>
+
+                        <p>
+                            Manage your employee records easily.
+                        </p>
+                    </div>
+
+                    <div class="welcome-icon">
+                        EMS
+                    </div>
+
+                </div>
+
+
+                <div class="stats-container">
+
+                    <div class="stat-card">
+                        <p>Total Employees</p>
+                        <h1 id="totalEmployees">0</h1>
+                        <span>Registered Employees</span>
+                    </div>
+
+                    <div class="stat-card">
+                        <p>Account Role</p>
+                        <h1 id="dashboardRole">User</h1>
+                        <span>Current Access Level</span>
+                    </div>
+
+                </div>
+
+
+                <div class="section-card">
+
+                    <div class="section-heading">
+                        <h2>Recent Employees</h2>
+
+                        <button class="secondary-btn"
+                            onclick="showPage('employees')">
+                            View All
+                        </button>
+                    </div>
+
+                    <div class="table-wrapper">
+
+                        <table>
+
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Name</th>
+                                    <th>Department</th>
+                                    <th>Salary</th>
+                                    <th>Age</th>
+                                </tr>
+                            </thead>
+
+                            <tbody id="recentEmployeeTable">
+
+                                <tr>
+                                    <td colspan="5">
+                                        No employees found
+                                    </td>
+                                </tr>
+
+                            </tbody>
+
+                        </table>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- EMPLOYEE PAGE -->
+            <div id="employeesPage" class="page hidden">
+
+                <div class="section-card">
+
+                    <div class="section-heading">
+
+                        <div>
+                            <h2>Employee Records</h2>
+
+                            <p>View and search employee details.</p>
+                        </div>
+
+                    </div>
+
+
+                    <div class="search-container">
+
+                        <input
+                            type="text"
+                            id="searchInput"
+                            placeholder="Search employee by name..."
+                        >
+
+                        <button class="primary-btn"
+                            onclick="searchEmployees()">
+                            Search
+                        </button>
+
+                        <button class="secondary-btn"
+                            onclick="loadEmployees()">
+                            Reset
+                        </button>
+
+                    </div>
+
+
+                    <div class="table-wrapper">
+
+                        <table>
+
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Name</th>
+                                    <th>Department</th>
+                                    <th>Salary</th>
+                                    <th>Age</th>
+                                    <th class="admin-only">Actions</th>
+                                </tr>
+                            </thead>
+
+                            <tbody id="employeeTable">
+
+                                <tr>
+                                    <td colspan="6">
+                                        Loading employees...
+                                    </td>
+                                </tr>
+
+                            </tbody>
+
+                        </table>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- ADD EMPLOYEE PAGE -->
+            <div id="addEmployeePage" class="page hidden admin-only">
+
+                <div class="section-card">
+
+                    <div class="section-heading">
+                        <div>
+                            <h2>Add New Employee</h2>
+                            <p>Enter employee information below.</p>
+                        </div>
+                    </div>
+
+
+                    <form id="addEmployeeForm" class="employee-form">
+
+                        <div class="form-group">
+
+                            <label>Employee Name</label>
+
+                            <input
+                                type="text"
+                                id="empName"
+                                placeholder="Enter employee name"
+                                minlength="2"
+                                maxlength="100"
+                                required
+                            >
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label>Department</label>
+
+                            <input
+                                type="text"
+                                id="empDepartment"
+                                placeholder="Enter department"
+                                minlength="2"
+                                maxlength="100"
+                                required
+                            >
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label>Salary</label>
+
+                            <input
+                                type="number"
+                                id="empSalary"
+                                placeholder="Enter salary"
+                                min="0"
+                                step="0.01"
+                                required
+                            >
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label>Age</label>
+
+                            <input
+                                type="number"
+                                id="empAge"
+                                placeholder="Enter age"
+                                min="18"
+                                max="100"
+                                required
+                            >
+
+                        </div>
+
+
+                        <p id="addEmployeeMessage" class="message"></p>
+
+                        <button type="submit" class="primary-btn">
+                            Add Employee
+                        </button>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+
+            <!-- UPDATE EMPLOYEE MODAL -->
+            <div id="updateModal" class="modal hidden">
+
+                <div class="modal-content">
+
+                    <div class="section-heading">
+                        <h2>Update Employee</h2>
+
+                        <button class="close-btn" onclick="closeUpdateModal()">
+                            &times;
+                        </button>
+                    </div>
+
+
+                    <form id="updateEmployeeForm">
+
+                        <input type="hidden" id="updateId">
+
+                        <div class="form-group">
+
+                            <label>Name</label>
+
+                            <input type="text" id="updateName" required>
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label>Department</label>
+
+                            <input type="text" id="updateDepartment" required>
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label>Salary</label>
+
+                            <input type="number" id="updateSalary"
+                                min="0" step="0.01" required>
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label>Age</label>
+
+                            <input type="number" id="updateAge"
+                                min="18" max="100" required>
+
+                        </div>
+
+
+                        <p id="updateMessage" class="message"></p>
+
+                        <button type="submit" class="primary-btn">
+                            Save Changes
+                        </button>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+
+        </main>
+
+    </section>
+
+
+    <script src="js/app.js"></script>
+
+</body>
+
+</html>
